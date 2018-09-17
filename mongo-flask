@@ -1,0 +1,46 @@
+#!/bin/bash
+#clear
+echo "Hello there..."
+
+echo "Please Give the name of the virtual environment"
+read envname
+
+virtualenv  $envname
+source $PWD/$envname/bin/activate
+pip3 install flask
+pip3 install flask flask-jsonpify flask-restful pymongo
+
+#Create the folsder setup and 
+pp=$PWD/$envname/app
+mkdir $pp
+mkdir $pp/static
+mkdir $pp/templates
+
+
+cat <<EOF >$pp/app.py
+from flask import Flask
+from flask_restful import Resource,Api
+from pymongo import MongoClient
+
+#client = MongoClient('mongodb://104.248.29.49:27017/')
+
+
+app = Flask(__name__)
+
+api = Api(app)
+#This is the main route
+api.add_resource(publishers,'/pubs')
+
+@app.route("/")
+def hello():
+    return "Hello World"
+
+if __name__=='__main__':
+    port = 
+    host = ''
+    app.run(debug=True,port=port,host=host)
+
+EOF
+
+echo "Dependencies have been installed and the app struvture has been created in the app folder"
+
